@@ -1,5 +1,4 @@
-
-
+from collections import deque
 
 """
 Binary search trees are a data structure that enforce an ordering over 
@@ -12,9 +11,6 @@ This part of the project comprises two days:
 2. Implement the `in_order_print`, `bft_print`, and `dft_print` methods
    on the BSTNode class.
 """
-
-
-
 class BSTNode:
     def __init__(self, value):
         self.value = value
@@ -63,25 +59,57 @@ class BSTNode:
         # mutate self.value
         fn(self.value)
         # recurse through all children
-        if self.right: self.right.for_each(fn)
         if self.left: self.left.for_each(fn)
+        if self.right: self.right.for_each(fn)
+        
 
     # Part 2 -----------------------
 
     # Print all the values in order from low to high
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self):
-        pass
+        # if left child recurse in left child
+        if self.left: self.left.in_order_print()
+        # print value
+        print(self.value)    
+        # if right child recurse in right child
+        if self.right:self.right.in_order_print()
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self):
-        pass
+        #create que and append self to the end
+        que = deque()
+        que.append(self)
+
+        # while que is not empty itterate
+        while len(que) > 0:
+            # ref the last node appended and remove it
+            current = que.popleft()
+            # if ref has left child append it to the que
+            if current.left:que.append(current.left)
+            # if ref has right child append it to the que
+            if current.right:que.append(current.right)
+            # print ref.value
+            print(current.value)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self):
-        pass
+        # create stack and append self
+        stack = []
+        stack.append(self)
+
+        # while stack is not empty itterate
+        while len(stack) > 0:
+            # ref the last node appended and remove it
+            current = stack.pop()
+            # if ref has left child append it to the que
+            if current.right: stack.append(current.right)
+            # if ref has right child append it to the que
+            if current.left: stack.append(current.left)
+            # print ref.value
+            print(current.value)
 
     # Stretch Goals -------------------------
     # Note: Research may be required
@@ -97,8 +125,8 @@ class BSTNode:
 """
 This code is necessary for testing the `print` methods
 """
-"""
-bst = BinarySearchTree(1)
+
+bst = BSTNode(1)
 
 bst.insert(8)
 bst.insert(5)
@@ -108,8 +136,24 @@ bst.insert(3)
 bst.insert(4)
 bst.insert(2)
 
+
+
+print('Print "in order"')
+bst.in_order_print()
+
+print()
+print('- Print "bft" -')
+print()
 bst.bft_print()
+
+print()
+print('- Print "dft" -')
+print()
 bst.dft_print()
+"""
+bst.dft_print()
+"""
+"""
 
 print("elegant methods")
 print("pre order")
@@ -120,4 +164,3 @@ print("post order")
 bst.post_order_dft()
 
 """
-
